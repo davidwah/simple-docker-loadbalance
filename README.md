@@ -2,15 +2,15 @@
 
 # Getting Started
 ## Build docker image
-* build image proxy on directory `proxy`
+* Build image proxy on directory `proxy`
 ```
 docker build -t proxy:1.0 .
 ```
-* build image service on directory `service`
+* Build image service on directory `service`
 ```
 docker build -t service:1.0 .
 ```
-* create docker-network
+* Create docker-network
 ```
 docker network create simple-docker-lb-network;
 ```
