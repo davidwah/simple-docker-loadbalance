@@ -1,0 +1,62 @@
+name: Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    # tags:
+    #   - "v*"
+  # pull_request:
+  #   branches:
+  #     - 'main'
+
+jobs:
+  deploy-docker-image-service:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - 
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./service/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            davidwah/service:1.0.0
+
+  deploy-docker-image-proxy:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - 
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./proxy/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            davidwah/proxy:1.0.0
+
+      
